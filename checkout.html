@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Pemesanan | Velvet Voyage</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Playfair+Display:wght@400;500;700&family=Roboto:wght@300;400;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- STYLING UTAMA (Sesuai Tema) --- */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        h1, h2, h5 {
+            font-family: 'Cinzel Decorative', cursive, serif;
+            font-weight: 700;
+            text-transform: none;
+            line-height: 1.25 !important;
+        }
+        
+        .navbar-custom { background-color: #662222; }
+        .navbar-brand { font-family: 'Cinzel Decorative', cursive; font-weight: 700; color: white !important; }
+        
+        .btn-theme {
+            background-color: #A3485A;
+            border-color: #A3485A;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .btn-theme:hover {
+            background-color: #7A3543;
+            border-color: #7A3543;
+            color: white;
+        }
+
+        .content-heading { 
+            font-family: 'Cinzel Decorative', cursive, serif;
+            font-weight: 700;
+            color: #662222;
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.3 !important;
+            display: block;
+        }
+        
+        .rincian-label { font-weight: 700 !important; color: #333; }
+        .hotel-title { color: #662222; }
+
+        /* FONT DAN ALIGNMENT UNTUK TOTAL AKHIR */
+        .total-price-text {
+             font-family: 'Roboto', sans-serif !important; 
+             font-weight: 700 !important; 
+             white-space: nowrap !important; /* Mencegah Rp dan angka terpisah */
+        }
+        /* Sticky Card di Kanan */
+        .booking-card-sticky { 
+            position: sticky; 
+            top: 80px; 
+            z-index: 10; 
+        }
+        
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fs-4 fw-bold" href="index.html">
+                <i class="fas fa-hotel me-2"></i> Velvet Voyage 
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a href="index.html" class="btn btn-outline-light me-2">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <main class="container py-5">
+        
+        <div class="row d-flex align-items-start"> 
+
+            <div class="col-lg-8">
+                
+                <h1 class="mb-4">Konfirmasi & Pembayaran</h1>
+
+                <div class="card p-4 shadow-sm mb-5">
+                    <h5 class="content-heading">FASILITAS KAMAR</h5>
+
+                    <div class="row" id="roomAmenities">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-wifi me-2 text-success"></i> Wi-Fi Kecepatan Tinggi</li>
+                                <li><i class="fas fa-tv me-2 text-success"></i> Smart TV</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-mug-hot me-2 text-success"></i> Kopi & Teh Gratis</li>
+                                <li><i class="fas fa-bed me-2 text-success"></i> King Size Bed</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-4 shadow-sm mb-5">
+                    <h5 class="content-heading">LENGKAPI DATA TAMU</h5>
+
+                    <form id="bookingForm" action="confirmation.html" method="POST" novalidate>
+                        <div class="mb-3">
+                            <label for="fullName" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" required>
+                            <div class="invalid-feedback">Mohon masukkan nama lengkap Anda.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                            <div class="invalid-feedback">Mohon masukkan alamat email yang valid.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Nomor Telepon (WhatsApp)</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" required>
+                            <div class="invalid-feedback">Mohon masukkan nomor telepon.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="paymentMethod" class="form-label">Metode Pembayaran</label>
+                            <select class="form-select" id="paymentMethod" name="paymentMethod" required>
+                                <option value="Transfer Bank" selected>Transfer Bank (Konfirmasi Admin)</option>
+                                <option value="Kartu Kredit">Kartu Kredit/Debit</option>
+                                <option value="E-Wallet">E-Wallet (Gopay/OVO/Dana)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="agreement" required>
+                            <label class="form-check-label" for="agreement">Saya setuju dengan Syarat & Ketentuan Velvet Voyage.</label>
+                            <div class="invalid-feedback">Anda harus menyetujui syarat & ketentuan.</div>
+                        </div>
+                        
+                        <input type="hidden" id="hiddenBasePrice" name="basePrice" value="850000">
+                        <input type="hidden" id="hiddenNights" name="nights" value="1">
+
+                        <button type="submit" class="btn btn-theme btn-lg w-100 mt-2 d-lg-none">
+                             <i class="fas fa-hand-holding-usd me-2"></i> Lanjutkan Pemesanan
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="card p-4 shadow-sm booking-card-sticky">
+
+                    <h5 class="content-heading text-end mb-4">RINCIAN PEMESANAN ANDA</h5>
+
+                    <h5 class="hotel-title fw-bold mb-3" style="text-transform: uppercase;" id="roomSummaryTitle">Standard Room</h5>
+                    <hr>
+
+                    <ul class="list-unstyled text-dark">
+                        <li><span class="rincian-label me-1">Hotel:</span> <span id="hotelSummary">The Majestic Palace</span></li>
+                        <li><span class="rincian-label me-1">Check-in:</span> <span id="checkInSummary">N/A</span></li>
+                        <li><span class="rincian-label me-1">Check-out:</span> <span id="checkOutSummary">N/A</span> (<span id="nightsSummary">1</span> Malam)</li>
+                        <li class="mt-2"><span class="rincian-label me-1">Tamu:</span> <span id="guestsSummary">2</span> Orang</li>
+                        <li><span class="rincian-label me-1">Bayar Dengan:</span> <span id="paymentSummary">Transfer Bank</span></li>
+                    </ul>
+
+                    <hr class="my-3">
+
+                    <h5 class="content-heading mb-4">TOTAL PEMBAYARAN</h5>
+
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="text-muted" id="subtotalLabel">Harga Kamar (1 Malam)</span>
+                        <span class="fw-bold text-dark" id="subtotalPrice">Rp 850.000</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="text-muted">Pajak & Layanan (<span id="taxRate">10</span>%)</span>
+                        <span class="fw-bold text-dark" id="taxPrice">Rp 85.000</span>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between align-items-center mb-1 mt-3">
+                        <span class="fs-4 hotel-title">TOTAL AKHIR</span> 
+                        <span class="fs-4 text-danger total-price-text" id="finalPrice">Rp 935.000</span>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-theme btn-lg w-100 mt-4 d-none d-lg-block" form="bookingForm">
+                        <i class="fas fa-hand-holding-usd me-2"></i> Lanjutkan Pemesanan
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="text-center">
+                &copy; 2025 Velvet Voyage.
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Objek Data Kamar (Pastikan ini sesuai dengan data di detail_kamar.html)
+        const hotelData = {
+            'majestic': {
+                name: 'The Majestic Palace',
+                taxRate: 0.10, // 10%
+                rooms: {
+                    'standard': {
+                        name: 'Standard Room',
+                        price: 850000,
+                        amenities: [
+                            { icon: 'fas fa-wifi', text: 'Wi-Fi Kecepatan Tinggi' },
+                            { icon: 'fas fa-tv', text: 'Smart TV' },
+                            { icon: 'fas fa-mug-hot', text: 'Kopi & Teh Gratis' },
+                            { icon: 'fas fa-bed', text: 'Queen Size Bed' }
+                        ]
+                    },
+                    'deluxe': {
+                        name: 'Deluxe Room',
+                        price: 1200000,
+                        amenities: [
+                            { icon: 'fas fa-wifi', text: 'Wi-Fi Kecepatan Tinggi' },
+                            { icon: 'fas fa-bath', text: 'Bathtub' },
+                            { icon: 'fas fa-tv', text: 'Smart TV 42 inci' },
+                            { icon: 'fas fa-bed', text: 'King Size Bed' }
+                        ]
+                    },
+                    'suite': {
+                        name: 'Executive Suite',
+                        price: 2500000,
+                        amenities: [
+                            { icon: 'fas fa-mug-hot', text: 'Sarapan Gratis' },
+                            { icon: 'fas fa-couch', text: 'Ruang Tamu Terpisah' },
+                            { icon: 'fas fa-tv', text: '2 Smart TV' },
+                            { icon: 'fas fa-wine-glass', text: 'Minibar Premium' }
+                        ]
+                    }
+                }
+            }
+        };
+
+        // Fungsi untuk mengambil parameter dari URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        };
+
+        // Fungsi Format Rupiah
+        function formatRupiah(number) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(number);
+        }
+
+        // Fungsi utama untuk memuat data dan menghitung harga
+        function loadBookingDetails() {
+            // Ambil parameter dari URL
+            const hotelId = getUrlParameter('hotel') || 'majestic';
+            const roomType = getUrlParameter('kamar') || 'standard';
+            const checkIn = getUrlParameter('checkIn');
+            const checkOut = getUrlParameter('checkOut');
+            const guests = getUrlParameter('guests') || 2;
+
+            const hotel = hotelData[hotelId];
+            const room = hotel ? hotel.rooms[roomType] : hotelData.majestic.rooms.standard;
+
+            if (!room || !hotel) return;
+
+            // --- 1. Perhitungan Harga ---
+            let nights = 1;
+            let checkInDate, checkOutDate;
+            
+            if (checkIn && checkOut) {
+                checkInDate = new Date(checkIn);
+                checkOutDate = new Date(checkOut);
+                
+                checkInDate.setHours(0, 0, 0, 0);
+                checkOutDate.setHours(0, 0, 0, 0);
+
+                if (checkOutDate > checkInDate) {
+                    const diffTime = Math.abs(checkOutDate - checkInDate);
+                    nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                }
+            }
+            
+            const basePrice = room.price; // Harga per malam
+            const subtotal = basePrice * nights;
+            const tax = subtotal * hotel.taxRate;
+            const totalPrice = subtotal + tax;
+
+            // --- 2. Update Ringkasan Detail (Kolom Kanan) ---
+            document.getElementById('roomSummaryTitle').textContent = room.name;
+            document.getElementById('hotelSummary').textContent = hotel.name;
+            document.getElementById('checkInSummary').textContent = checkIn ? checkIn : 'Pilih Tanggal';
+            document.getElementById('checkOutSummary').textContent = checkOut ? checkOut : 'Pilih Tanggal';
+            document.getElementById('nightsSummary').textContent = nights;
+            document.getElementById('guestsSummary').textContent = guests;
+            
+            document.getElementById('subtotalLabel').textContent = `Harga Kamar (${nights} Malam)`;
+            document.getElementById('subtotalPrice').textContent = formatRupiah(subtotal);
+            document.getElementById('taxRate').textContent = (hotel.taxRate * 100);
+            document.getElementById('taxPrice').textContent = formatRupiah(tax);
+            document.getElementById('finalPrice').textContent = formatRupiah(totalPrice);
+
+            // --- 3. Update Fasilitas (Kolom Kiri) ---
+            const amenitiesContainer = document.getElementById('roomAmenities');
+            amenitiesContainer.innerHTML = '';
+            room.amenities.forEach((amenity, index) => {
+                // Bagi fasilitas ke dua kolom
+                if (index % 2 === 0) {
+                    if (!amenitiesContainer.children[0]) {
+                        amenitiesContainer.insertAdjacentHTML('beforeend', '<div class="col-md-6"><ul class="list-unstyled"></ul></div>');
+                    }
+                    amenitiesContainer.children[0].querySelector('ul').insertAdjacentHTML('beforeend', 
+                        `<li><i class="${amenity.icon} me-2 text-success"></i> ${amenity.text}</li>`
+                    );
+                } else {
+                    if (!amenitiesContainer.children[1]) {
+                        amenitiesContainer.insertAdjacentHTML('beforeend', '<div class="col-md-6"><ul class="list-unstyled"></ul></div>');
+                    }
+                    amenitiesContainer.children[1].querySelector('ul').insertAdjacentHTML('beforeend', 
+                        `<li><i class="${amenity.icon} me-2 text-success"></i> ${amenity.text}</li>`
+                    );
+                }
+            });
+
+            // --- 4. Update Hidden Inputs (Untuk Form Submission) ---
+            document.getElementById('hiddenBasePrice').value = basePrice;
+            document.getElementById('hiddenNights').value = nights;
+
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadBookingDetails();
+            
+            // Listener untuk update summary pembayaran
+            document.getElementById('paymentMethod').addEventListener('change', function() {
+                document.getElementById('paymentSummary').textContent = this.value;
+            });
+            
+            // Logika Form Submission (Simulasi pengiriman ke confirmation.html)
+            document.getElementById('bookingForm').addEventListener('submit', function(event) {
+                event.preventDefault(); 
+                
+                // Validasi Bootstrap
+                if (!this.checkValidity()) {
+                    event.stopPropagation();
+                    this.classList.add('was-validated');
+                    return;
+                }
+                
+                this.classList.remove('was-validated');
+
+                // Dapatkan Nama untuk pesan alert
+                const fullName = document.getElementById('fullName').value;
+
+
+                // Arahkan ke halaman konfirmasi setelah simulasi alert
+                window.location.href = 'confirmation.html'; 
+            });
+            
+        });
+    </script>
+</body>
+</html>
